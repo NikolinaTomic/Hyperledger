@@ -79,7 +79,7 @@ echo
 ORG3_TOKEN=$(curl -s -X POST \
   http://localhost:4000/users \
   -H "content-type: application/x-www-form-urlencoded" \
-  -d 'username=Jim&orgName=Org3')
+  -d 'username=Nikolina&orgName=Org3')
 echo $ORG3_TOKEN
 ORG3_TOKEN=$(echo $ORG3_TOKEN | jq ".token" | sed "s/\"//g")
 echo
@@ -226,7 +226,7 @@ curl -s -X POST \
   -H "authorization: Bearer $ORG1_TOKEN" \
   -H "content-type: application/json" \
   -d "{
-	\"peers\": [\"peer0.org1.example.com\"],
+	\"peers\": [\"peer0.org1.example.com\",\"peer0.org2.example.com\",\"peer0.org3.example.com\"],
 	\"chaincodeName\":\"mycc\",
 	\"chaincodeVersion\":\"v0\",
 	\"chaincodeType\": \"$LANGUAGE\",
@@ -244,7 +244,7 @@ VALUES=$(curl -s -X POST \
   -H "authorization: Bearer $ORG1_TOKEN" \
   -H "content-type: application/json" \
   -d "{
-  \"peers\": [\"peer0.org1.example.com\",\"peer0.org2.example.com\"],
+  \"peers\": [\"peer0.org2.example.com\"],
   \"fcn\":\"addClient\",
   \"args\":[\"Nada\",\"Djurkic\",\"nadica.dju@gmail.com\",\"32000\"]
 }")
@@ -257,7 +257,7 @@ echo
 echo "Provera da li postoji novi korisnik"
 echo
 curl -s -X GET \
-  "http://localhost:4000/channels/mychannel/chaincodes/mycc?peer=peer0.org1.example.com&fcn=query&args=%5B%22cli5%22%5D" \
+  "http://localhost:4000/channels/mychannel/chaincodes/mycc?peer=peer1.org3.example.com&fcn=query&args=%5B%22cli5%22%5D" \
   -H "authorization: Bearer $ORG1_TOKEN" \
   -H "content-type: application/json"
 echo
@@ -283,7 +283,7 @@ echo
 echo "Cli1 novo stanje posle transakcije"
 echo
 curl -s -X GET \
-  "http://localhost:4000/channels/mychannel/chaincodes/mycc?peer=peer0.org1.example.com&fcn=query&args=%5B%22cli1%22%5D" \
+  "http://localhost:4000/channels/mychannel/chaincodes/mycc?peer=peer2.org1.example.com&fcn=query&args=%5B%22cli1%22%5D" \
   -H "authorization: Bearer $ORG1_TOKEN" \
   -H "content-type: application/json"
 echo
@@ -292,7 +292,7 @@ echo
 echo "Cli2 novo stanje posle transakcije (dodata i transakcija u listu transakcija)"
 echo
 curl -s -X GET \
-  "http://localhost:4000/channels/mychannel/chaincodes/mycc?peer=peer0.org1.example.com&fcn=query&args=%5B%22cli2%22%5D" \
+  "http://localhost:4000/channels/mychannel/chaincodes/mycc?peer=peer3.org1.example.com&fcn=query&args=%5B%22cli2%22%5D" \
   -H "authorization: Bearer $ORG1_TOKEN" \
   -H "content-type: application/json"
 echo

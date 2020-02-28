@@ -73,7 +73,7 @@ const instantiateChaincode = async function(peers, channelName, chaincodeName, c
 			logger.info('UPGRADE CALLED INSTEAD OF INSTANTIATE');
 		}
 		else	
-			results = await channel.sendInstantiateProposal(request, 60000); //instantiate takes much longer
+			results = await channel.sendInstantiateProposal(request, 1500000); //instantiate takes much longer
 
 
 		// the returned object has both the endorsement results
